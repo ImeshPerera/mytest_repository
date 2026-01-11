@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GitHub Test Page</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            margin: 40px;
+            color: #111
+        }
+
+        header {
+            margin-bottom: 24px
+        }
+
+        .card {
+            border: 1px solid #e1e4e8;
+            padding: 16px;
+            border-radius: 8px;
+            max-width: 700px
+        }
+
+        button {
+            margin-top: 8px;
+            padding: 8px 12px;
+            cursor: pointer
+        }
+
+        small {
+            color: #555
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>GitHub Test Page</h1>
+        <p class="muted">A minimal index.html to test commits, pushes and GitHub Pages.</p>
+    </header>
+
+    <main class="card">
+        <p>Use this file to verify that your repository updates and GitHub Pages (if enabled) are working.</p>
+
+        <p><strong>Page URL:</strong> <span id="url"></span></p>
+        <p><strong>Last modified:</strong> <span id="modified"></span></p>
+
+        <button id="reload">Reload</button>
+        <button id="copy">Copy URL</button>
+        <div id="msg" role="status" aria-live="polite" style="margin-top:12px"><small>Ready.</small></div>
+    </main>
+
+    <script>
+        document.getElementById('url').textContent = location.href;
+        document.getElementById('modified').textContent = document.lastModified || 'unknown';
+
+        document.getElementById('reload').addEventListener('click', () => location.reload());
+        document.getElementById('copy').addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(location.href);
+                document.getElementById('msg').innerHTML = '<small>URL copied to clipboard.</small>';
+            } catch {
+                document.getElementById('msg').innerHTML = '<small>Unable to copy. Select and copy manually.</small>';
+            }
+        });
+    </script>
+</body>
+
+</html>
