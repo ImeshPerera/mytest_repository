@@ -4,67 +4,276 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>GitHub Test Page</title>
+    <title>Simple HTML CSS JS Page</title>
     <style>
+        :root {
+            --bg: #f6f8fb;
+            --card: #fff;
+            --text: #0b2545;
+            --accent: #0066ff;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0b1220;
+            --card: #0f1724;
+            --text: #e6eef8;
+            --accent: #4da3ff;
+        }
+
+        html,
         body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-            margin: 40px;
-            color: #111
+            height: 100%;
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--bg), #e8eefb);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 920px;
         }
 
         header {
-            margin-bottom: 24px
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), #60b6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            margin: 0
+        }
+
+        p.lead {
+            margin: 0;
+            color: color-mix(in srgb, var(--text) 70%, transparent)
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 18px;
+        }
+
+        @media (max-width:760px) {
+            main {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
-            border: 1px solid #e1e4e8;
-            padding: 16px;
-            border-radius: 8px;
-            max-width: 700px
+            background: var(--card);
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(11, 37, 69, 0.08);
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px
         }
 
         button {
-            margin-top: 8px;
+            background: var(--accent);
+            color: white;
+            border: 0;
             padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer
         }
 
-        small {
-            color: #555
+        .ghost {
+            background: transparent;
+            border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+            color: var(--text)
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(11, 37, 69, 0.08);
+            min-width: 0;
+            flex: 1
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .muted {
+            font-size: .9rem;
+            color: color-mix(in srgb, var(--text) 60%, transparent)
+        }
+
+        footer {
+            margin-top: 16px;
+            text-align: center;
+            color: color-mix(in srgb, var(--text) 50%, transparent);
+            font-size: .85rem
+        }
+
+        .count {
+            font-size: 2.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 12px 0
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>GitHub Test Page</h1>
-        <p class="muted">A minimal index.html to test commits, pushes and GitHub Pages.</p>
-    </header>
+    <div class="wrap" id="app">
+        <header>
+            <div class="brand">
+                <div class="logo" aria-hidden>GH</div>
+                <div>
+                    <h1>Simple Page</h1>
+                    <p class="lead">HTML • CSS • JS demo</p>
+                </div>
+            </div>
+            <div>
+                <button id="themeToggle" class="ghost" title="Toggle theme">Toggle</button>
+            </div>
+        </header>
 
-    <main class="card">
-        <p>Use this file to verify that your repository updates and GitHub Pages (if enabled) are working.</p>
+        <main>
+            <section class="card" aria-labelledby="main-title">
+                <h2 id="main-title">Interactive demo</h2>
+                <p class="muted">Try the controls to the right or use the counter below.</p>
 
-        <p><strong>Page URL:</strong> <span id="url"></span></p>
-        <p><strong>Last modified:</strong> <span id="modified"></span></p>
+                <div style="margin-top:12px">
+                    <div class="count" id="count">0</div>
+                    <div class="controls">
+                        <button id="dec">-</button>
+                        <button id="inc">+</button>
+                        <button id="reset" class="ghost">Reset</button>
+                    </div>
+                </div>
 
-        <button id="reload">Reload</button>
-        <button id="copy">Copy URL</button>
-        <div id="msg" role="status" aria-live="polite" style="margin-top:12px"><small>Ready.</small></div>
-    </main>
+                <hr style="margin:18px 0;border:none;border-top:1px solid rgba(11,37,69,0.06)">
+
+                <form id="greetForm" onsubmit="return false;">
+                    <label for="name">Enter your name</label>
+                    <div style="display:flex;gap:8px;margin-top:8px">
+                        <input id="name" type="text" placeholder="Your name" />
+                        <button id="greetBtn">Greet</button>
+                    </div>
+                    <p id="greeting" class="muted" style="margin-top:12px"></p>
+                </form>
+            </section>
+
+            <aside class="sidebar">
+                <div class="card">
+                    <h3 style="margin-top:0">Settings</h3>
+                    <p class="muted">Quick actions</p>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+                        <button id="randomize" class="ghost">Randomize Count</button>
+                        <button id="copyUrl" class="ghost">Copy URL (state)</button>
+                    </div>
+                </div>
+
+                <div class="card" style="text-align:center">
+                    <p class="muted" style="margin:0 0 8px 0">Current theme</p>
+                    <div id="themeLabel">Light</div>
+                </div>
+            </aside>
+        </main>
+
+        <footer>
+            <small>Minimal demo · Accessible · Responsive</small>
+        </footer>
+    </div>
 
     <script>
-        document.getElementById('url').textContent = location.href;
-        document.getElementById('modified').textContent = document.lastModified || 'unknown';
+        // minimal reactive-ish state
+        const state = {
+            count: 0,
+            name: '',
+            theme: localStorage.getItem('theme') || 'light'
+        };
 
-        document.getElementById('reload').addEventListener('click', () => location.reload());
-        document.getElementById('copy').addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(location.href);
-                document.getElementById('msg').innerHTML = '<small>URL copied to clipboard.</small>';
-            } catch {
-                document.getElementById('msg').innerHTML = '<small>Unable to copy. Select and copy manually.</small>';
-            }
+        const el = id => document.getElementById(id);
+        const updateUI = () => {
+            el('count').textContent = state.count;
+            el('greeting').textContent = state.name ? 'Hello, ' + state.name + '!' : '';
+            document.documentElement.setAttribute('data-theme', state.theme === 'dark' ? 'dark' : 'light');
+            el('themeLabel').textContent = state.theme === 'dark' ? 'Dark' : 'Light';
+            localStorage.setItem('theme', state.theme);
+        };
+
+        // controls
+        el('inc').addEventListener('click', () => { state.count++; updateUI(); });
+        el('dec').addEventListener('click', () => { state.count--; updateUI(); });
+        el('reset').addEventListener('click', () => { state.count = 0; updateUI(); });
+
+        el('greetBtn').addEventListener('click', () => {
+            state.name = el('name').value.trim();
+            updateUI();
         });
+
+        el('name').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') { state.name = el('name').value.trim(); updateUI(); }
+        });
+
+        el('randomize').addEventListener('click', () => {
+            state.count = Math.floor(Math.random() * 101) - 20;
+            updateUI();
+        });
+
+        el('copyUrl').addEventListener('click', async () => {
+            // encode minimal state in query
+            const url = new URL(location.href);
+            url.searchParams.set('count', state.count);
+            url.searchParams.set('name', state.name || '');
+            await navigator.clipboard?.writeText(url.toString()).catch(() => null);
+            el('copyUrl').textContent = 'Copied!';
+            setTimeout(() => el('copyUrl').textContent = 'Copy URL (state)', 1200);
+        });
+
+        el('themeToggle').addEventListener('click', () => {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            updateUI();
+        });
+
+        // hydrate from URL if present
+        (function hydrateFromURL() {
+            const params = new URLSearchParams(location.search);
+            if (params.has('count')) state.count = parseInt(params.get('count')) || 0;
+            if (params.has('name')) { state.name = params.get('name'); el('name').value = state.name; }
+        })();
+
+        updateUI();
     </script>
 </body>
 
