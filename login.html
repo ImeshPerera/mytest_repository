@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login</title>
+    <style>
+        :root{--bg:#f3f6fb;--card:#fff;--accent:#2563eb;--muted:#6b7280}
+        html,body{height:100%}
+        body{
+            margin:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:linear-gradient(180deg,var(--bg),#e9eef8);
+            font-family:Inter,Segoe UI,system-ui,Roboto,"Helvetica Neue",Arial;
+            color:#111827;
+        }
+        .card{
+            width:360px;
+            background:var(--card);
+            border-radius:12px;
+            box-shadow:0 8px 24px rgba(16,24,40,0.08);
+            padding:28px;
+        }
+        h1{margin:0 0 8px;font-size:20px}
+        p.lead{margin:0 0 20px;color:var(--muted);font-size:13px}
+        label{display:block;font-size:13px;margin-bottom:6px}
+        .input{
+            width:100%;
+            padding:10px 12px;
+            border:1px solid #e6e9ef;
+            border-radius:8px;
+            font-size:14px;
+            outline:none;
+            box-sizing:border-box;
+        }
+        .input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(37,99,235,.08)}
+        .row{margin-bottom:14px}
+        .actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+        .btn{
+            background:var(--accent);
+            color:#fff;
+            border:none;
+            padding:10px 14px;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:600;
+        }
+        .btn:active{transform:translateY(1px)}
+        .link{font-size:13px;color:var(--accent);text-decoration:none}
+        .muted{color:var(--muted);font-size:13px}
+        .error{color:#b91c1c;font-size:13px;margin-top:8px;display:none}
+        .row.inline{display:flex;align-items:center;gap:8px;justify-content:space-between}
+        .checkbox{display:flex;align-items:center;gap:8px}
+        .toggle-pw{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px}
+        footer{margin-top:12px;text-align:center;font-size:12px;color:var(--muted)}
+    </style>
+</head>
+<body>
+    <main class="card" role="main" aria-labelledby="login-title">
+        <h1 id="login-title">Sign in to your account</h1>
+        <p class="lead">Enter your credentials to continue</p>
+
+        <form id="loginForm" novalidate>
+            <div class="row">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" class="input" placeholder="you@example.com" autocomplete="username" required />
+            </div>
+
+            <div class="row">
+                <label for="password">Password</label>
+                <div style="display:flex;gap:8px">
+                    <input id="password" name="password" type="password" class="input" placeholder="••••••••" autocomplete="current-password" required />
+                    <button type="button" id="togglePw" class="toggle-pw" aria-label="Show password">Show</button>
+                </div>
+            </div>
+
+            <div class="row inline">
+                <label class="checkbox"><input id="remember" type="checkbox" /> <span class="muted">Remember me</span></label>
+                <a href="#" class="link">Forgot?</a>
+            </div>
+
+            <div style="margin-top:8px;display:flex;flex-direction:column">
+                <button type="submit" class="btn">Sign in</button>
+                <div id="error" class="error" role="alert"></div>
+            </div>
+        </form>
+
+        <footer>Don't have an account? <a href="#" class="link">Sign up</a></footer>
+    </main>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const error = document.getElementById('error');
+        const toggle = document.getElementById('togglePw');
+
+        toggle.addEventListener('click', () => {
+            const shown = password.type === 'text';
+            password.type = shown ? 'password' : 'text';
+            toggle.textContent = shown ? 'Show' : 'Hide';
+            toggle.setAttribute('aria-pressed', String(!shown));
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            error.style.display = 'none';
+            error.textContent = '';
+
+            if (!email.value.trim()) {
+                showError('Please enter your email.');
+                email.focus();
+                return;
+            }
+            if (!password.value) {
+                showError('Please enter your password.');
+                password.focus();
+                return;
+            }
+
+            // Simulate successful submit (replace with real authentication)
+            alert('Logged in as ' + email.value.trim());
+            form.reset();
+        });
+
+        function showError(msg){
+            error.textContent = msg;
+            error.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
